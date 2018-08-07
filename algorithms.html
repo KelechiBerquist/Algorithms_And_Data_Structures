@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title> Algorithms </title>
+	<link rel="stylesheet" type="text/css" href="algorithms.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Bree+Serif|Cinzel:400,700|Raleway" rel="stylesheet">
+
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="#">Algorithms</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+			<li class="nav-item active">
+				<a class="nav-link" href="#MergeSort">Merge Sort <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Features</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Pricing</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Dropdown link
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="#">Another action</a>
+					<a class="dropdown-item" href="#">Something else here</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<div class='container my-5'>
+
+	<div class='pageTitle my-3'> Algorithms </div>
+
+
+	<div class='fontLevel3 my-2'> Sorting Algorithms </div>
+
+	<div id='MergeSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Merge Sort </span>
+		<div class=' d-block fontLevel0'>
+			In merge sort, an unsorted array in split into 2 smaller arrays, recursively sorted and then joined back into a big array to form a sorted array. The disadvantage of merge-sort is that it requires memory availability for splitting the arrays and creating the merged array.
+		
+			<span class=' d-block my-2'> </span>
+
+			My steps for solving this problem:
+			<li>Break the array into initial 2 sides.</li>
+			<li>Then pick the LHS, if greater than 2, recursively break it down </li>
+
+		</div>
+	</div>
+
+
+	<div id='BubbleSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Bubble Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Bubble sort, the first element in the array (i) is compared with all other elements in the array. If element i is larger than any other element j in the array, the position of elements i and j are swapped. After the first iteraction, the largest element is guaranteed to be at the base of the array. When this is continued, it bubbles the solution till the array is completely sorted. In this case, the solution is of the O(n<sup>2</sup>) because the array has to be looped almost twice over.
+		</div>
+	</div>
+
+
+	<div id='InsertionSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Insertion Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Insertion sort, we sort the array in place. Our array is always separated into sorted portion and unsorted portion.
+			In this case, if an array is given, we assume the first element is sorted. Then we take the second element, and place it ahead or behind the first sorted element according to its size relative to the first element. Then this process is continued until the array is sorted.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(n) time. In the worst case, when the array is sorted backwards, the algorithm will be sorted in O(n<sup>2</sup>) time because each n elements needs to be shifed n times.
+		</div>
+	</div>
+
+
+	<div id='QuickSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Quick Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Quick sort, we choose a pivot, and create a wall at the beginning of the array to be sorted. Any item smaller than the pivot goes to the left of the wall. Any item to the right of the pivot goes to the right of the wall. When this is done, the pivot will be at its sorted position. Then we recursively apply quick sort on items to the left of the wall and to the right of the wall until the whole array is sorted.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(nlog(n) time. In the worst case, when the pivot chosen is the largest or smallest item in the sub array, the algorithm will be sorted in O(n<sup>2</sup>) time. To avoid it, it is better to use the median of 3 items in the subarray as its pivot to increase the probability that the pivot is somewhere in the middle of the subarray.
+		</div>
+	</div>
+
+
+	<div id='BucketSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Bucket Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Bucket sort, we find the lowest and largest numbers, and use that range to create 1o buckets between the largest and the smallest. Then the elements of the unsorted array are put into buckets based on where they fall within the range of highest and lowest. When this is done, some buckets can be empty and other have multiple elements. After putting elements in buckets, insertion sort can be used to sort the elements within a bucket.
+			Then the final sorted array is can be obtained from taking the elements from the buckets in order.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(n + N) time. where n comes from the transversing through the array to find the lowest and highest number in the unsorted array. While N comes from the number of elements in the buckets and it is the best case scenario for insertion sort.
+		</div>
+	</div>
+	
+
+	<div id='RadixSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Radix Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Radix sort, we sort according to the number of digits in the elements. <br>
+			First, we find the highest number in the element, then we find the number of digits in the element. Then we make sure all elements in the array have equal number of digits by padding leading zero to elements that do not have the same number of digits as the biggest element in the array. <br> 
+			Since there are only 10 digits, i.e. from 0 - 9, 1p buckets are created for each digit. The number of rounds of sorting depends on the number of digits, N, in the largest element in the array. <br>
+
+			In each round, the numbers are put in buckets based on the value of the digits corresponding to that round from right to left. That is, in the first round, the 1st number from the RHS is used to place elements into buckets. And in the last round, the first number on the LHS is used to place elements into buckets. <br>
+			In this algorithm, some buckets may be empty and other buckets may contain multiple elements. <br>
+			After each successive round, the buckets need to be emptied. These buckets are emptied using FIFO (First In First Out).
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(n + n*N) time. where n comes from the transversing through the array to find the lowest and highest number in the unsorted array. While n*N comes from the number of rounds of sorting elements in the buckets.
+		</div>
+	</div>
+
+
+
+	<div id='CountingSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Counting Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Counting sort, we sort according to the number of digits in the elements. <br>
+			First, we find the highest and lowest numbers in the element, then we make an array, called RangeArray, that contains all integer between the lowest and highest elements inclusive.  <br>
+
+			After this, another array, called the FrequencyArray, is made to note the frequency of each element in the unsorted array. Then a third array, called the CummulativeFrequencyArray, is used to find the cummulative of the frequency of each element in the unsorted array. <br>
+			When this is done, a sorted array can be formed by taking each element in the Range Array that was in the original unsorted array, and putting it in the position obtained from the CummulativeFreqArray. <br>
+
+			That is, if integer 5 was in the original unsorted array and has an index of 2 in the RangeArray, it will occupy position CummulativeFreqArray[2] in the SortedArray. <br>
+
+			That is, if integer 5 is found in RangeArray[2], then its position in SortedArray is CummulativeFreqArray[2].
+			If there are repititions in the elements of FrequencyArray, then after placing each number, decrease the cummulative freq so that it can occupy all the indexes it is allowed.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(n + N) time. where n comes from the transversing through the array to find the lowest and highest number in the unsorted array. While N comes from the number of rounds of sorting elements in the buckets.
+		</div>
+	</div>
+
+
+
+
+	<div id='HeapSort' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Heap Sort </span>
+		<div class=' d-block fontLevel0'>
+			In Heap sort, we first form a heap, extract the root node from the heap, replace the root node with the last element in the heap, fix any heap violations and repeat the process. <br>
+
+			<span class=' d-block my-2'> </span>
+			A heap can be visualised as an incomplete binary tree where the parent node is always equal or greater than the child nodes in a max heap, or a parent node is always less than or equal to the child node in the min heap. Usually, max heaps are used for ascending order sorting and min heaps are used for descending order sorting. <br>
+
+			Additional elements are filled in the heap from left to right on the next available child node. <br>
+			Only the root node can be extracted from the heap. When a root node is extracted, it ought to be replaced with the last element in the heap. When a root node is extracted and replaced with the last element in the heap, a heap violation may occur. A heap violation in a max heap occurs when a parent is less than at least one of its child node. A heap violation occurs in a min node when a parent node is greater than at least one of its children nodes. When a heap violation occurs, that node needs to be heapified, meaning the heap violation on that node must be fixed by switching parents with children in such a way that the violation is resolved.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(log(n)) time.
+		</div>
+	</div>
+
+
+
+
+
+	<div class='fontLevel3 my-2'> Searching Algorithms </div>
+
+	<div id='LinearSearch' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Linear Search </span>
+		<div class=' d-block fontLevel0'>
+			In Linear search, we first form a heap, extract the root node from the heap, replace the root node with the last element in the heap, fix any heap violations and repeat the process. <br>
+
+			<span class=' d-block my-2'> </span>
+			A heap can be visualised as an incomplete binary tree where the parent node is always equal or greater than the child nodes in a max heap, or a parent node is always less than or equal to the child node in the min heap. Usually, max heaps are used for ascending order sorting and min heaps are used for descending order sorting. <br>
+
+			Additional elements are filled in the heap from left to right on the next available child node. <br>
+			Only the root node can be extracted from the heap. When a root node is extracted, it ought to be replaced with the last element in the heap. When a root node is extracted and replaced with the last element in the heap, a heap violation may occur. A heap violation in a max heap occurs when a parent is less than at least one of its child node. A heap violation occurs in a min node when a parent node is greater than at least one of its children nodes. When a heap violation occurs, that node needs to be heapified, meaning the heap violation on that node must be fixed by switching parents with children in such a way that the violation is resolved.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(log(n)) time.
+		</div>
+	</div>
+
+
+
+
+
+	<div id='BinarySearch' class='my-3 mb-5'>
+		<span class=' d-block fontLevel2'> Binary Search </span>
+		<div class=' d-block fontLevel0'>
+			In Binary search, we first form a heap, extract the root node from the heap, replace the root node with the last element in the heap, fix any heap violations and repeat the process. <br>
+
+			<span class=' d-block my-2'> </span>
+			A heap can be visualised as an incomplete binary tree where the parent node is always equal or greater t han the child nodes in a max heap, or a parent node is always less than or equal to the child node in the min heap. Usually, max heaps are used for ascending order sorting and min heaps are used for descending order sorting. <br>
+
+			Additional elements are filled in the heap from left to right on the next available child node. <br>
+			Only the root node can be extracted from the heap. When a root node is extracted, it ought to be replaced with the last element in the heap. When a root node is extracted and replaced with the last element in the heap, a heap violation may occur. A heap violation in a max heap occurs when a parent is less than at least one of its child node. A heap violation occurs in a min node when a parent node is greater than at least one of its children nodes. When a heap violation occurs, that node needs to be heapified, meaning the heap violation on that node must be fixed by switching parents with children in such a way that the violation is resolved.
+
+			<span class=' d-block my-2'> </span>
+
+			In the best case, this algorithm will work in O(log(n)) time.
+		</div>
+	</div>
+
+
+
+</div>
+</body>
+</html>
