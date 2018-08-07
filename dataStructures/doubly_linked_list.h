@@ -80,27 +80,9 @@ void DL_List<T1>::push (T1 newValue)
 	}
 	else
 	{
-		// std::cout<<"Before: "  <<basePointer->thisValue <<"  "  <<newPointer->thisValue <<"  "    <<"\n";
-		// std::cout<<"Before: " <<tempPointer->thisValue <<"  "  <<basePointer->thisValue <<"  "  <<"\n";
-		// DL_List <T1>::eachValue * tempPointer  =  basePointer;
 		basePointer->forePointer               =  newPointer;
 		newPointer->backPointer                =  basePointer;
 		basePointer                            =  newPointer;
-		
-		// DL_List <T1>::eachValue * tempPointer  =  basePointer;
-		// basePointer                            =  newPointer;
-		// tempPointer->forePointer               =  newPointer;
-		// basePointer->backPointer               =  tempPointer;
-		
-		// std::cout<<"After: "  <<newPointer->backPointer->thisValue <<"  " <<newPointer->thisValue <<"  "  <<basePointer->thisValue <<"  "  <<"\n";
-		// std::cout<<"After: " <<tempPointer->thisValue <<"  "  <<basePointer->thisValue <<"  "  <<"\n";
-		
-
-		// DL_List<T1>::eachValue * tempPointer   =  basePointer->backPointer;
-		// tempPointer->forePointer  =  newPointer;
-		// newPointer->backPointer   =  tempPointer;
-		// newPointer->forePointer   =  basePointer;
-		// basePointer->backPointer  =  newPointer;
 	}
 }
 // 
@@ -132,8 +114,6 @@ int DL_List<T1>::size ()
 template <typename T1> 
 typename DL_List<T1>::eachValue * DL_List<T1>::searchHelpFunc (DL_List<T1>::eachValue * thisPointer, T1 searchValue)
 {
-	// std::cout  <<basePointer->thisValue <<"  "  <<"\n";
-
 	if (thisPointer != NULL)
 	{
 		if (thisPointer->thisValue == searchValue)
