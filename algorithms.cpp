@@ -13,6 +13,9 @@
 #include <utility>      // std::pair, std::make_pair
 #include <cstddef>
 #include <new>          // ::operator new
+#include <math.h>  
+#include <cmath>   
+
 
 #include "algorithms/sortFunctions.h"
 #include "algorithms/searchFunctions.h"
@@ -21,6 +24,9 @@
 #include "dataStructures/trie.h"
 #include "dataStructures/doubly_linked_list.h"
 #include "dataStructures/singly_linked_list.h"
+#include "dataStructures/diffNode.h"
+#include "dataStructures/heap.h"
+
 
 using std::vector;
 using std::list;
@@ -30,7 +36,7 @@ using std::string;
 
 
 constexpr auto low_bound = 0;
-constexpr auto up_bound = 100000;
+constexpr auto up_bound = 10000;
 int m = 0;
 
 
@@ -48,12 +54,66 @@ int main()
 
 	std::generate(ArrayToSort.begin(), ArrayToSort.end(), [&]{ return di(dre);});
 
-	for (auto i: ArrayToSort)
+	// for (auto i: ArrayToSort)
+	// {
+	// 	// cout<<i<<"  ";
+	// }
+	// cout<<"\n";
+	// cout<<"\n";
+
+	// vector<int>Heapified = Heapify (ArrayToSort);
+	// for (auto i: Heapified)
+	// {
+	// 	cout<<i<<"  ";
+	// }
+	// cout<<"\n";
+	// cout<<"\n";
+
+
+	// cout<<"Check ceil: " <<ceil(1/2)-1<<"  "  <<ceil(5/2)-1<<"  "  <<ceil(7/2)-1<<"  "  <<ceil(13/2)-1<<"  "  <<"\n";
+	// cout<<"Check ceil: " <<ceil(0.5)-1<<"  "  <<ceil(2.5)-1<<"  "  <<ceil(3.5)-1<<"  "  <<ceil(6.5)-1<<"  "  <<"\n";
+
+
+	// // ******************************************************************************************************//
+	// // **************** Begin For Implementing MyHeap *************************//
+	// // ******************************************************************************************************//
+	Heap <int> myHeap1;
+	Heap <int> myHeap2;
+
+	for (int i : ArrayToSort)
 	{
-		cout<<i<<"  ";
+		myHeap1.add(i);
+		myHeap2.add(i);
 	}
+
+	// myHeap1.print();
+	// myHeap2.print();
 	cout<<"\n";
 	cout<<"\n";
+	myHeap1.maxHeapify();
+	myHeap2.minHeapify();
+
+	// cout<<"\n";
+	// cout<<"\n";
+	myHeap1.printMax();
+	cout<<"\n";
+	cout<<"\n";
+	myHeap2.printMin();
+	cout<<"\n";
+	cout<<"\n";
+
+	Heap <int> mySortedHeap1 = myHeap1.maxHeapSort();
+	Heap <int> mySortedHeap2 = myHeap2.minHeapSort();
+
+	mySortedHeap1.print();
+	cout<<"\n";
+	cout<<"\n";
+	// mySortedHeap2.print();
+	
+	// // ******************************************************************************************************//
+	// // **************** End For Implementing MyHeap *************************//
+	// // ******************************************************************************************************//
+
 
 
 	// // ******************************************************************************************************//
@@ -113,49 +173,32 @@ int main()
 	// // ******************************************************************************************************//
 	// // **************** Begin For Implementing BST *************************//
 	// // ******************************************************************************************************//
-	BST <int> myTree;	
-	for (int i : ArrayToSort)
-	{
-		myTree.add(i);
-	}
+	// BST <int> myTree;	
+	// for (int i : ArrayToSort)
+	// {
+	// 	myTree.add(i);
+	// }
+	// // cout<<"\n";
+	// // cout<<"\n";
+	// myTree.print();
 	// cout<<"\n";
 	// cout<<"\n";
-	myTree.print();
-	cout<<"\n";
-	cout<<"\n";
-	cout<<-77 <<":   ";
-	cout<<myTree.bfs(-77) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[3] <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[3]) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[m-1] <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[m-1]) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[m-17] <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[m-17]) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[m-10] <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[m-10]) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[m-70] <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[m-70]) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[m-170] <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[m-170]) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	cout<< ArrayToSort[m-170]+534 <<":   " ;
-	cout<<myTree.bfs(ArrayToSort[m-170]+534) <<"  " ;
-	cout<<"\n";
-	cout<<"\n";
-	
+	// cout<<-77 <<":   ";
+	// cout<<myTree.search(-77) <<"  " ;
+	// cout<<"\n";
+	// cout<<"\n";
+	// cout<< ArrayToSort[3]-704 <<":   " ;
+	// cout<<myTree.search(ArrayToSort[3]-704) <<"  " ;
+	// cout<<"\n";
+	// cout<<"\n";
+	// cout<< ArrayToSort[m-1]+99 <<":   " ;
+	// cout<<myTree.search(ArrayToSort[m-1]+99) <<"  " ;
+	// cout<<"\n";
+	// cout<<"\n";
+	// cout<< ArrayToSort[m-17]*10 <<":   " ;
+	// cout<<myTree.search(ArrayToSort[m-17]*10) <<"  " ;
+	// cout<<"\n";
+	// cout<<"\n";
 	// // ******************************************************************************************************//
 	// // **************** End For Implementing BST *************************//
 	// // ******************************************************************************************************//
@@ -181,9 +224,9 @@ int main()
  	//******************************************************************************************************//
 	//**************** Begin For Implementing Trie *************************//
 	//******************************************************************************************************//
-	// Trie myTrie = Trie();
+	// Trie <int> myTrie;
 
-	// for (string a : {"peter", "piper", "picked", "peck", "pickled", "pepper"})
+	// for (string a : {"peter", "piper", "picked", "peck", "pickled", "pepper", "kelechi", "is", "the", "bestest", "good", "gehn", "googler", "abrada", "cabra", "cool", "whip"})
 	// {
 	// 	// cout<<a<<" ";
 	// 	myTrie.add(a);

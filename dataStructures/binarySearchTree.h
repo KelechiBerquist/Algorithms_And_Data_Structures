@@ -2,32 +2,23 @@
 #define BINARYSEARCHTREE_H
 
 #include "doubly_linked_list.h"
+#include "diffNode.h"
+
 
 template<typename T>
 class BST
 {
 	private:
 		int nodeHeight;
-		struct Node
-		{
-			T value;
-			Node * parent      =   NULL;
-			Node * child_left  =   NULL;
-			Node * child_right =   NULL;
-		};
+		DL_List <binNode<T> * > myQueue;
 
-		Node * rootNode;
-		Node * preAdd(Node * oldNode, T newValue);
-		void printPreOrderFunc(Node *oldPointer);
-		void printInOrderFunc(Node *oldPointer);
-		void printPostOrderFunc(Node *oldPointer);
-
-		DL_List <Node * > myDL_List;
-		// bool visitBfs(Node * thisNode, T searchValue);
-		// bool visitBfs(DL_List <Node * > myDL_List, T searchValue, bool truthValue);
-		bool visitBfs(DL_List <Node * > myDL_List, T searchValue);
-		bool visitDfs(DL_List <Node * > myDL_List, T searchValue);
-		// bool visitDfs(DL_List <Node * > myDL_List, T searchValue, bool truthValue);
+		binNode<T> * rootNode;
+		binNode<T> * addHelpFunc(binNode<T> * oldNode, T newValue);
+		void printPreOrderFunc(binNode<T> *oldPointer);
+		void printInOrderFunc(binNode<T> *oldPointer);
+		void printPostOrderFunc(binNode<T> *oldPointer);
+		bool searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue);
+		void printBFTFunc(DL_List <binNode<T> * > myQueue);
 
 
 		
@@ -35,8 +26,7 @@ class BST
 	public:
 		BST();
 		void add(T newValue);
-		bool dfs(T searchValue);
-		bool bfs(T searchValue);
+		bool search(T searchValue);
 		void del(T value);
 		void print();
 		int height ();
@@ -50,14 +40,14 @@ class BST
 template<typename T>
 BST<T>::BST(void)
 {
-	rootNode =  NULL;
+	BST<T>::rootNode =  NULL;
 }
 // 
 // 
 // 
 //********* Find Node To Add Add Item******************//
 template<typename T>
-typename BST<T>::Node* BST<T>::preAdd(BST::Node * oldNode, T newValue)
+binNode<T> * BST<T>::addHelpFunc(binNode<T> * oldNode, T newValue)
 {
 	if ( newValue == oldNode->value)
 	{
@@ -73,7 +63,7 @@ typename BST<T>::Node* BST<T>::preAdd(BST::Node * oldNode, T newValue)
 		else
 		{
 			// std::cout<<"Search Left of: " <<oldNode->value <<";  \n";
-			BST<T>::preAdd(oldNode->child_left, newValue);
+			BST<T>::addHelpFunc(oldNode->child_left, newValue);
 		}
 	}
 
@@ -86,7 +76,7 @@ typename BST<T>::Node* BST<T>::preAdd(BST::Node * oldNode, T newValue)
 		else
 		{
 			// std::cout<<"Search Right of: " <<oldNode->value <<";  \n";
-			BST<T>::preAdd(oldNode->child_right, newValue);
+			BST<T>::addHelpFunc(oldNode->child_right, newValue);
 		}
 	}
 }
@@ -97,19 +87,19 @@ typename BST<T>::Node* BST<T>::preAdd(BST::Node * oldNode, T newValue)
 template<typename T>
 void BST<T>::add(T newValue)
 {
-	if (rootNode == NULL)
+	binNode<T> * newNode    =  (binNode<T> *) std::malloc(sizeof(binNode<T>));
+	newNode->value          =  newValue;
+	
+	if (BST<T>::rootNode == NULL)
 	{
-		rootNode         =  (BST::Node*) std::malloc(sizeof(BST::Node));
-		rootNode->value  =  newValue;
-		// std::cout<<"Root Node is Added: " <<rootNode->value <<"   \n";
+		BST<T>::rootNode         =  newNode;
+		// std::cout<<"Root Node is Added: " <<BST<T>::rootNode->value <<"   \n";
 	}
 	else
 	{
-		BST::Node * bottomNode  =  BST::preAdd(rootNode, newValue);
+		binNode<T> * bottomNode  =  BST::addHelpFunc(BST<T>::rootNode, newValue);
 		if (bottomNode != NULL)
 		{
-			BST::Node * newNode     =  (BST::Node*) std::malloc(sizeof(BST::Node));
-			newNode->value          =  newValue;
 			newNode->parent         =  bottomNode;
 
 			if (newValue < bottomNode->value)
@@ -131,62 +121,46 @@ void BST<T>::add(T newValue)
 // 
 //********* Print BST ******************//
 template<typename T>
-void BST<T>::print()
+bool BST<T>::searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue)
 {
-	std::cout<<"  \n";
-	std::cout<<"  \n";
-	std::cout<<"  \n";
-	printPreOrderFunc(rootNode);
-	std::cout<<"  \n";
-	std::cout<<"  \n";
-	std::cout<<"  \n";
-	printInOrderFunc(rootNode);
-	std::cout<<"  \n";
-	std::cout<<"  \n";
-	std::cout<<"  \n";
-	printPostOrderFunc(rootNode);
-}
-// 
-// 
-// 
-//********* Helper Function for Printing BST******************//
-template<typename T>
-void BST<T>::printPreOrderFunc(BST::Node *thisNode)
-{
-	if (thisNode != NULL)
+	if (myQueue.size())
 	{
-		std::cout <<thisNode->value<<"  ";
-		printPreOrderFunc(thisNode->child_left);
-		printPreOrderFunc(thisNode->child_right);
+		binNode<T> * thisNode = myQueue.pop();
+
+		if (thisNode != NULL)	
+		{
+			std::cout<<thisNode->value <<"  ";
+			if (thisNode->value == searchValue)
+			{
+				return true;
+			}
+			else if (searchValue < thisNode->value)
+			{
+				myQueue.push(thisNode->child_left);
+			}
+			else
+			{
+				myQueue.push(thisNode->child_right);
+			}
+			BST<T>::searchHelpFunc(myQueue, searchValue);	
+		}
+	}
+	else
+	{
+		return false;
 	}
 }
 // 
 // 
 // 
-//********* Helper Function for Printing BST******************//
+//********* Print BST ******************//
 template<typename T>
-void BST<T>::printInOrderFunc(BST::Node *thisNode)
+bool BST<T>::search(T searchValue)
 {
-	if (thisNode != NULL)
-	{
-		printInOrderFunc(thisNode->child_left);
-		std::cout <<thisNode->value<<"  ";
-		printInOrderFunc(thisNode->child_right);
-	}
-}
-// 
-// 
-// 
-//********* Helper Function for Printing BST******************//
-template<typename T>
-void BST<T>::printPostOrderFunc(BST::Node *thisNode)
-{
-	if (thisNode != NULL)
-	{
-		printInOrderFunc(thisNode->child_left);
-		printInOrderFunc(thisNode->child_right);
-		std::cout <<thisNode->value<<"  ";
-	}
+	myQueue.push(BST<T>::rootNode);
+	bool truthValue = BST<T>::searchHelpFunc(myQueue, searchValue);
+
+	return truthValue;
 }
 // 
 // 
@@ -204,237 +178,86 @@ void BST<T>::printPostOrderFunc(BST::Node *thisNode)
 // 
 //********* Print BST ******************//
 template<typename T>
-bool BST<T>::visitBfs(DL_List <BST::Node * > myDL_List, T searchValue)
+void BST<T>::print()
 {
-	if (myDL_List.size())
+	printPreOrderFunc(BST<T>::rootNode);
+	std::cout<<"  \n";
+	std::cout<<"  \n";
+	std::cout<<"  \n";
+	printInOrderFunc(BST<T>::rootNode);
+	std::cout<<"  \n";
+	std::cout<<"  \n";
+	std::cout<<"  \n";
+	printPostOrderFunc(BST<T>::rootNode);
+	std::cout<<"  \n";
+	std::cout<<"  \n";
+	std::cout<<"  \n";
+	myQueue.push(BST<T>::rootNode);
+	printBFTFunc(myQueue);
+}
+// 
+// 
+// 
+//********* Helper Function for Printing BST******************//
+template<typename T>
+void BST<T>::printPreOrderFunc(binNode<T> *thisNode)
+{
+	if (thisNode != NULL)
 	{
-		BST<T>::Node * thisNode = myDL_List.pop();
+		std::cout <<thisNode->value<<"  ";
+		printPreOrderFunc(thisNode->child_left);
+		printPreOrderFunc(thisNode->child_right);
+	}
+}
+// 
+// 
+// 
+//********* Helper Function for Printing BST******************//
+template<typename T>
+void BST<T>::printInOrderFunc(binNode<T> *thisNode)
+{
+	if (thisNode != NULL)
+	{
+		printInOrderFunc(thisNode->child_left);
+		std::cout <<thisNode->value<<"  ";
+		printInOrderFunc(thisNode->child_right);
+	}
+}
+// 
+// 
+// 
+//********* Helper Function for Printing BST******************//
+template<typename T>
+void BST<T>::printPostOrderFunc(binNode<T> *thisNode)
+{
+	if (thisNode != NULL)
+	{
+		printInOrderFunc(thisNode->child_left);
+		printInOrderFunc(thisNode->child_right);
+		std::cout <<thisNode->value<<"  ";
+	}
+}
+// 
+// 
+// 
+//********* Print BFT ******************//
+template<typename T>
+void BST<T>::printBFTFunc(DL_List <binNode<T> * > myQueue)
+{
+	if (myQueue.size())
+	{
+		binNode<T> * thisNode = myQueue.pop();
 
 		if (thisNode != NULL)	
 		{
 			std::cout<<thisNode->value <<"  ";
-			if (thisNode->value == searchValue)
-			{
-				return true;
-			}
-			else if (searchValue < thisNode->value)
-			{
-				myDL_List.push(thisNode->child_left);
-			}
-			else
-			{
-				myDL_List.push(thisNode->child_right);
-			}
-			BST<T>::visitBfs(myDL_List, searchValue);	
+			myQueue.push(thisNode->child_left);
+			myQueue.push(thisNode->child_right);	
 		}
+		BST<T>::printBFTFunc(myQueue);
 	}
-	else
-	{
-		return false;
-	}
-}
-// 
-// 
-// 
-//********* Print BST ******************//
-template<typename T>
-bool BST<T>::bfs(T searchValue)
-{
-	myDL_List.push(rootNode);
-	bool truthValue = BST<T>::visitBfs(myDL_List, searchValue);
-
-	return truthValue;
-}
-// 
-// 
-// 
-template<typename T>
-bool BST<T>::visitDfs(DL_List <BST::Node * > myDL_List, T searchValue)
-{
-	if (myDL_List.size())
-	{
-		BST<T>::Node * thisNode = myDL_List.pop();
-
-		if (thisNode != NULL)	
-		{
-			std::cout<<thisNode->value <<"  ";
-			if (thisNode->value == searchValue)
-			{
-				return true;
-			}
-			else if (searchValue < thisNode->value)
-			{
-				myDL_List.push(thisNode->child_left);
-			}
-			else
-			{
-				myDL_List.push(thisNode->child_right);
-			}
-			BST<T>::visitDfs(myDL_List, searchValue);	
-		}
-	}
-	else
-	{
-		return false;
-	}
-}
-// 
-// 
-// 
-//********* Print BST ******************//
-template<typename T>
-bool BST<T>::dfs(T searchValue)
-{
-	myDL_List.push(rootNode);
-	bool truthValue = BST<T>::visitDfs(myDL_List, searchValue);
-
-	return truthValue;
 }
 // 
 // 
 // 
 #endif
-
-// // 
-// // 
-// // 
-// //********* Print BST ******************//
-// template<typename T>
-// // bool BST<T>::visitBfs(BST::Node * thisNode, T searchValue)
-// bool BST<T>::visitBfs(DL_List <BST::Node * > myDL_List, T searchValue)
-// {
-// 	BST<T>::Node * thisNode = myDL_List.pop();
-	
-// 	if (thisNode != NULL)	
-// 	{
-// 		std::cout<<thisNode->value <<"  ";
-// 		if (thisNode->value == searchValue)
-// 		{
-// 			return true;
-// 		}
-// 		else if (searchValue < thisNode->value)
-// 		{
-// 			myDL_List.push(thisNode->child_left);
-// 			// BST<T>::visitBfs(myDL_List, searchValue, truthValue);
-// 		}
-
-// 		// else if (searchValue < thisNode->value)
-// 		else
-// 		{
-// 			myDL_List.push(thisNode->child_right);
-// 			// BST<T>::visitBfs(myDL_List, searchValue, truthValue);
-// 		}	
-// 	}
-// 	return false;
-// }
-// // 
-// // 
-// // 
-// //********* Print BST ******************//
-// template<typename T>
-// bool BST<T>::bfs(T searchValue)
-// {
-// 	myDL_List.push(rootNode);
-// 	bool truthValue = false;
-
-
-// 	if (truthValue == false)
-// 	{
-// 		if (myDL_List.size())
-// 		{
-// 			truthValue = BST<T>::visitBfs(myDL_List, searchValue);
-// 		}
-// 		else
-// 		{
-// 			return truthValue;
-// 		}	
-// 	}
-// 	else
-// 	{
-// 		return truthValue;
-// 	}
-// }
-// // 
-// // 
-// // 
-// // // 
-// // // 
-// // // 
-// // //********* Print BST ******************//
-// // template<typename T>
-// // bool BST<T>::visitBfs(DL_List <BST::Node * > myDL_List, T searchValue, bool truthValue)
-// // {
-// // 	if (myDL_List.size())
-// // 	{
-// // 		BST<T>::Node * thisNode = myDL_List.pop();
-
-
-// // 		if (thisNode != NULL)	
-// // 		{
-// // 			std::cout<<thisNode->value <<"  ";
-// // 			if (thisNode->value == searchValue)
-// // 			{
-// // 				return true;
-// // 			}
-// // 			else if (searchValue < thisNode->value)
-// // 			{
-// // 				myDL_List.push(thisNode->child_left);
-// // 				BST<T>::visitBfs(myDL_List, searchValue, truthValue);
-// // 			}
-
-// // 			// else if (searchValue < thisNode->value)
-// // 			else
-// // 			{
-// // 				myDL_List.push(thisNode->child_right);
-// // 				BST<T>::visitBfs(myDL_List, searchValue, truthValue);
-// // 			}	
-// // 		}		
-// // 	}
-
-// // 	return false;
-// // }
-// // // 
-// // // 
-// // // 
-// // //********* Print BST ******************//
-// // template<typename T>
-// // bool BST<T>::bfs(T searchValue)
-// // {
-// // 	myDL_List.push(rootNode);
-// // 	bool truthValue = false;
-// // 	return BST<T>::visitBfs(myDL_List, searchValue, truthValue);	
-// // }
-// // // 
-// // // 
-// // // 
-// // //********* Print BST ******************//
-// // template<typename T>
-// // bool BST<T>::visitBfs(DL_List <BST::Node * > myDL_List, T searchValue, bool truthValue)
-// // {
-// // 	if (myDL_List.size())
-// // 	{
-// // 		BST<T>::Node * thisNode = myDL_List.pop();
-
-
-// // 		if (thisNode != NULL)	
-// // 		{
-// // 			std::cout<<thisNode->value <<"  ";
-// // 			if (thisNode->value == searchValue)
-// // 			{
-// // 				return true;
-// // 			}
-// // 			myDL_List.push(thisNode->child_left);
-// // 			myDL_List.push(thisNode->child_right);
-// // 		}
-		
-// // 		if (myDL_List.size())
-// // 		{
-// // 			BST<T>::visitBfs(myDL_List, searchValue, truthValue);
-// // 		}	
-// // 	}
-
-// // 	return false;
-// // }
-// // // 
-// // // 
-// // // 

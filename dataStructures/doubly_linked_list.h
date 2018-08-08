@@ -1,31 +1,31 @@
 #ifndef DOUBLY_LINKED_LIST_H
 #define DOUBLY_LINKED_LIST_H
 
-template <typename T1>
+template <typename T>
 class DL_List
 {
 	private:
 		struct eachValue
 		{
-			T1  thisValue;
+			T  thisValue;
 			eachValue * forePointer;
 			eachValue * backPointer;
 		};
 		eachValue * rootPointer;
 		eachValue * basePointer;
-		eachValue * searchHelpFunc (eachValue * thisPointer, T1 deleteValue);
+		eachValue * searchHelpFunc (eachValue * thisPointer, T deleteValue);
 		void printHelpFunc (eachValue * thisPointer);
 
 	public:
 		int listSize;
 		DL_List();
-		T1 pop();
-		void push (T1 newValue);
-		std::string search (T1 searchValue);
-		void del (T1 deleteValue);
+		T pop();
+		void push (T newValue);
+		std::string search (T searchValue);
+		void del (T deleteValue);
 		void print ();
 		int size ();
-		T1 peek(T1 peekValue);
+		T peek(T peekValue);
 		eachValue * begin();
 		eachValue * end();
 
@@ -35,37 +35,37 @@ class DL_List
 // 
 // 
 // 
-template <typename T1>
-DL_List<T1>::DL_List()
+template <typename T>
+DL_List<T>::DL_List()
 {
 	listSize    = 0;
-	DL_List<T1>::rootPointer = NULL;
-	DL_List<T1>::basePointer = NULL;
+	DL_List<T>::rootPointer = NULL;
+	DL_List<T>::basePointer = NULL;
 }
 // 
 // 
 // 
-template <typename T1>
-typename DL_List<T1>::eachValue * DL_List<T1>::begin ()
+template <typename T>
+typename DL_List<T>::eachValue * DL_List<T>::begin ()
 {
 	return rootPointer;
 }
 // 
 // 
 // 
-template <typename T1>
-typename DL_List<T1>::eachValue * DL_List<T1>::end ()
+template <typename T>
+typename DL_List<T>::eachValue * DL_List<T>::end ()
 {
 	return basePointer;
 }
 // 
 // 
 // 
-template <typename T1>
-void DL_List<T1>::push (T1 newValue)
+template <typename T>
+void DL_List<T>::push (T newValue)
 {
 	listSize++;
-	DL_List<T1>::eachValue * newPointer     =  (DL_List<T1>::eachValue *) std::malloc(sizeof(DL_List<T1>::eachValue));
+	DL_List<T>::eachValue * newPointer     =  (DL_List<T>::eachValue *) std::malloc(sizeof(DL_List<T>::eachValue));
 	newPointer->thisValue                   =  newValue;
 
 	if (rootPointer == NULL)
@@ -80,39 +80,21 @@ void DL_List<T1>::push (T1 newValue)
 	}
 	else
 	{
-		// std::cout<<"Before: "  <<basePointer->thisValue <<"  "  <<newPointer->thisValue <<"  "    <<"\n";
-		// std::cout<<"Before: " <<tempPointer->thisValue <<"  "  <<basePointer->thisValue <<"  "  <<"\n";
-		// DL_List <T1>::eachValue * tempPointer  =  basePointer;
-		basePointer->forePointer               =  newPointer;
-		newPointer->backPointer                =  basePointer;
-		basePointer                            =  newPointer;
-		
-		// DL_List <T1>::eachValue * tempPointer  =  basePointer;
-		// basePointer                            =  newPointer;
-		// tempPointer->forePointer               =  newPointer;
-		// basePointer->backPointer               =  tempPointer;
-		
-		// std::cout<<"After: "  <<newPointer->backPointer->thisValue <<"  " <<newPointer->thisValue <<"  "  <<basePointer->thisValue <<"  "  <<"\n";
-		// std::cout<<"After: " <<tempPointer->thisValue <<"  "  <<basePointer->thisValue <<"  "  <<"\n";
-		
-
-		// DL_List<T1>::eachValue * tempPointer   =  basePointer->backPointer;
-		// tempPointer->forePointer  =  newPointer;
-		// newPointer->backPointer   =  tempPointer;
-		// newPointer->forePointer   =  basePointer;
-		// basePointer->backPointer  =  newPointer;
+		basePointer->forePointer   =  newPointer;
+		newPointer->backPointer    =  basePointer;
+		basePointer                =  newPointer;
 	}
 }
 // 
 // 
 // 
-template <typename T1>
-T1 DL_List<T1>::pop ()
+template <typename T>
+T DL_List<T>::pop ()
 {
 	listSize--;
-	DL_List<T1>::eachValue * tempPointer  =  rootPointer;
+	DL_List<T>::eachValue * tempPointer  =  rootPointer;
 	rootPointer              =  tempPointer->forePointer;
-	T1 thisValue             =  tempPointer->thisValue;
+	T thisValue             =  tempPointer->thisValue;
 
 	std::free(tempPointer);
 	return thisValue;
@@ -120,8 +102,8 @@ T1 DL_List<T1>::pop ()
 // 
 // 
 // 
-template <typename T1>
-int DL_List<T1>::size ()
+template <typename T>
+int DL_List<T>::size ()
 {
 	return listSize;
 }
@@ -129,11 +111,9 @@ int DL_List<T1>::size ()
 // 
 // 
 // This searches the pointer itself for the values. Unlike singly linked list that searches a parent for the child's value
-template <typename T1> 
-typename DL_List<T1>::eachValue * DL_List<T1>::searchHelpFunc (DL_List<T1>::eachValue * thisPointer, T1 searchValue)
+template <typename T> 
+typename DL_List<T>::eachValue * DL_List<T>::searchHelpFunc (DL_List<T>::eachValue * thisPointer, T searchValue)
 {
-	// std::cout  <<basePointer->thisValue <<"  "  <<"\n";
-
 	if (thisPointer != NULL)
 	{
 		if (thisPointer->thisValue == searchValue)
@@ -142,7 +122,7 @@ typename DL_List<T1>::eachValue * DL_List<T1>::searchHelpFunc (DL_List<T1>::each
 		}
 		else
 		{
-			DL_List<T1>::searchHelpFunc (thisPointer->forePointer, searchValue);
+			DL_List<T>::searchHelpFunc (thisPointer->forePointer, searchValue);
 		}
 	}
 
@@ -154,15 +134,15 @@ typename DL_List<T1>::eachValue * DL_List<T1>::searchHelpFunc (DL_List<T1>::each
 // 
 // 
 // 
-template <typename T1>
-void DL_List<T1>::del (T1 deleteValue)
+template <typename T>
+void DL_List<T>::del (T deleteValue)
 {
-	DL_List<T1>::eachValue * tempPointer  =  DL_List<T1>::searchHelpFunc (rootPointer, deleteValue);
+	DL_List<T>::eachValue * tempPointer  =  DL_List<T>::searchHelpFunc (rootPointer, deleteValue);
 
 	if (tempPointer != NULL)
 	{
-		DL_List<T1>::eachValue * forePointed    =  tempPointer->forePointer;
-		DL_List<T1>::eachValue * backPointed    =  tempPointer->backPointer;
+		DL_List<T>::eachValue * forePointed    =  tempPointer->forePointer;
+		DL_List<T>::eachValue * backPointed    =  tempPointer->backPointer;
 		backPointed->forePointer                =  forePointed;
 		if (forePointed != NULL)
 		{
@@ -175,10 +155,10 @@ void DL_List<T1>::del (T1 deleteValue)
 // 
 // 
 // 
-template <typename T1>
-std::string DL_List<T1>::search (T1 searchValue)
+template <typename T>
+std::string DL_List<T>::search (T searchValue)
 {
-	DL_List<T1>::eachValue * tempPointer  =  DL_List<T1>::searchHelpFunc (rootPointer, searchValue);
+	DL_List<T>::eachValue * tempPointer  =  DL_List<T>::searchHelpFunc (rootPointer, searchValue);
 
 	if (tempPointer != NULL)
 	{
@@ -189,10 +169,10 @@ std::string DL_List<T1>::search (T1 searchValue)
 // 
 // 
 // 
-template <typename T1>
-T1 DL_List<T1>::peek (T1 peekValue)
+template <typename T>
+T DL_List<T>::peek (T peekValue)
 {
-	DL_List<T1>::eachValue * tempPointer  =  DL_List<T1>::searchHelpFunc (rootPointer, peekValue);
+	DL_List<T>::eachValue * tempPointer  =  DL_List<T>::searchHelpFunc (rootPointer, peekValue);
 
 	if (tempPointer != NULL)
 	{
@@ -203,23 +183,22 @@ T1 DL_List<T1>::peek (T1 peekValue)
 // 
 // 
 // 
-template <typename T1>
-void DL_List<T1>::print ()
+template <typename T>
+void DL_List<T>::print ()
 {
-	DL_List<T1>::printHelpFunc (rootPointer);
+	DL_List<T>::printHelpFunc (rootPointer);
 }
 // 
 // 
 // 
-template <typename T1>
-void DL_List<T1>::printHelpFunc (DL_List<T1>::eachValue * thisPointer)
+template <typename T>
+void DL_List<T>::printHelpFunc (DL_List<T>::eachValue * thisPointer)
 {
 	if (thisPointer != NULL)
 	{
 		std::cout<<thisPointer->thisValue <<"   ";
-		DL_List<T1>::printHelpFunc (thisPointer->forePointer);
+		DL_List<T>::printHelpFunc (thisPointer->forePointer);
 	}
-	// else ()
 }
 // 
 // 

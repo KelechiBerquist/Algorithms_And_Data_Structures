@@ -1,7 +1,9 @@
 #ifndef TRIE_H
 #define TRIE_H
 
+#include "diffNode.h"
 
+template <typename T>
 class Trie
 {
 	public:
@@ -9,96 +11,84 @@ class Trie
 		Trie();
 		void add(std::string newString);
 		void print();
-		// void add(std::string newString);
 
 		
 
 
 	private:
-		struct Node
-		{
-			// Node * makeNode();
-			int value;
-			Trie::Node **childNode;
-			bool isLeaf = false;
-		};
-		Node * makeNode();
-		Node * rootNode;
-		// Node *  createNode();
+		trieNode<T> * makeNode();
+		trieNode<T> * rootNode;
 		int *  createNodeArray();
-		void addHelpFunc(Trie::Node* thisNode, std::string newString, int i);
-		void printHelpFunc(Trie::Node* thisNode, std::string Word);
-
-
+		void addHelpFunc(trieNode<T> * thisNode, std::string newString, int i);
+		void printHelpFunc(trieNode<T> * thisNode, std::string Word);
 };
 // 
 // 
 // 
-Trie::Trie()
+template <typename T>
+Trie<T>::Trie()
 {
-	rootNode    =  Trie::makeNode();
+	Trie<T>::rootNode    =  Trie<T>::makeNode();
 }
 // 
 // 
 // 
-Trie::Node * Trie::makeNode()
+template <typename T>
+trieNode<T> * Trie<T>::makeNode()
+// typename trieNode<T> * Trie<T>::makeNode()
 {
-	Trie::Node * newNode  =  (Trie::Node *)  std::malloc(sizeof(Trie::Node));
-	newNode->childNode    =  (Trie::Node **) std::malloc(26*sizeof(void *));
+	trieNode<T> * newNode  =  (trieNode<T> *)  std::malloc(sizeof(trieNode<T>));
+	newNode->childNode    =  (trieNode<T> **) std::malloc(numChar*sizeof(void *));
 	
 	return newNode;
 }
 // 
 // 
 // 
-void Trie::add(std::string newString)
+template <typename T>
+void Trie<T>::add(std::string newString)
 {
-	Trie::addHelpFunc(rootNode, newString, 0);
+	Trie<T>::addHelpFunc(Trie<T>::rootNode, newString, 0);
 }
 // 
 // 
 // 
-void Trie::addHelpFunc(Trie::Node* thisNode, std::string newString, int i)
+template <typename T>
+void Trie<T>::addHelpFunc(trieNode<T> * thisNode, std::string newString, int i)
 {
 	if (i < newString.size())
 	{
 		if (thisNode->childNode[int(newString[i])-'a'] == NULL)
 		{	
-			Trie::Node *  newNode                        =  Trie::makeNode();
+			trieNode<T> *  newNode                        =  Trie<T>::makeNode();
 			thisNode->childNode[int(newString[i])-'a']   =  newNode;
 			// std::cout<<"Created Level " <<i <<" for " <<newString <<"\n";
 		}
 
-		Trie::Node *  thatNode  = thisNode->childNode[int(newString[i])-'a'];
-		Trie::addHelpFunc(thatNode, newString, i+1);
+		trieNode<T> *  thatNode  = thisNode->childNode[int(newString[i])-'a'];
+		Trie<T>::addHelpFunc(thatNode, newString, i+1);
 	}
 
 	if (i == newString.size())
 	{
 		thisNode->isLeaf = true;
-
 		// std::cout<<"End of " <<newString <<"\n";
 	}
 }
 // 
 // 
 // 
-void Trie::print()
+template <typename T>
+void Trie<T>::print()
 {
-	for (int i = 0;  i < Trie::numChar;  i++)
-	{
-		
-		if(rootNode->childNode[i] != NULL)
-		{
-			std::string Word = "";
-			Trie::printHelpFunc(rootNode, Word);
-		}	
-	}	
+	std::string Word = "";
+	Trie<T>::printHelpFunc(Trie<T>::rootNode, Word);
 }
 // 
 // 
 // 
-void Trie::printHelpFunc(Trie::Node* thisNode, std::string Word)
+template <typename T>
+void Trie<T>::printHelpFunc(trieNode<T> * thisNode, std::string Word)
 {
 	std::string newWord;
 	if(thisNode != NULL)
@@ -108,20 +98,15 @@ void Trie::printHelpFunc(Trie::Node* thisNode, std::string Word)
 			std::cout<<" "<<Word<<"  ";
 		}
 
-		for (int i = 0;  i < Trie::numChar;  i++)
+		for (int i = 0;  i < Trie<T>::numChar;  i++)
 		{
 			if(thisNode->childNode[i] != NULL)
 			{
 				newWord = Word + char(i+'a');
-				Trie::Node *  thatNode  = thisNode->childNode[i];
-				Trie::printHelpFunc(thatNode, newWord);
+				trieNode<T> *  thatNode  = thisNode->childNode[i];
+				Trie<T>::printHelpFunc(thatNode, newWord);
 			}
 		}
-		
-	}
-	else
-	{
-		Word = "";
 	}
 }
 #endif
