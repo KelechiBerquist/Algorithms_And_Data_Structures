@@ -54,12 +54,12 @@ int main()
 
 	std::generate(ArrayToSort.begin(), ArrayToSort.end(), [&]{ return di(dre);});
 
-	// for (auto i: ArrayToSort)
-	// {
-	// 	// cout<<i<<"  ";
-	// }
-	// cout<<"\n";
-	// cout<<"\n";
+	for (auto i: ArrayToSort)
+	{
+		cout<<i<<"  ";
+	}
+	cout<<"\n";
+	cout<<"\n";
 
 	// vector<int>Heapified = Heapify (ArrayToSort);
 	// for (auto i: Heapified)
@@ -95,20 +95,23 @@ int main()
 
 	// cout<<"\n";
 	// cout<<"\n";
-	myHeap1.printMax();
-	cout<<"\n";
-	cout<<"\n";
-	myHeap2.printMin();
-	cout<<"\n";
-	cout<<"\n";
+	// myHeap1.testMaxHeap();
+	// cout<<"\n";
+	// cout<<"\n";
+	// myHeap2.testMinHeap();
+	// cout<<"\n";
+	// cout<<"\n";
 
-	Heap <int> mySortedHeap1 = myHeap1.maxHeapSort();
-	Heap <int> mySortedHeap2 = myHeap2.minHeapSort();
-
-	mySortedHeap1.print();
+	myHeap1.maxHeapSort();
 	cout<<"\n";
 	cout<<"\n";
-	// mySortedHeap2.print();
+	myHeap2.minHeapSort();
+	cout<<"\n";
+	cout<<"\n";
+	myHeap1.print();
+	cout<<"\n";
+	cout<<"\n";
+	myHeap2.print();
 	
 	// // ******************************************************************************************************//
 	// // **************** End For Implementing MyHeap *************************//

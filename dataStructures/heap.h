@@ -11,11 +11,9 @@ template<typename T>
 class Heap
 {
 	private:
-		// int parent1 = 
 		std::vector<T> dataVector;
-		DL_List<T> myQueue;
-		void bubbleUpFixedNodeViolationMax (int child);
-		void bubbleUpFixedNodeViolationMin (int child);
+		void bubbleUpFixedNodeViolationMax (int child, int stopValue);
+		void bubbleUpFixedNodeViolationMin (int child, int stopValue);
 		void fixNodeViolationMax (int stopValue);
 		void fixNodeViolationMin (int stopValue);
 		
@@ -26,12 +24,11 @@ class Heap
 		void add(T newValue);
 		void maxHeapify ();
 		void minHeapify ();
-		Heap<T> maxHeapSort ();
-		Heap<T> minHeapSort ();
-		T  popMin();
+		void maxHeapSort ();
+		void minHeapSort ();
 		void  print();
-		void  printMax();
-		void  printMin();
+		void  testMaxHeap();
+		void  testMinHeap();
 };
 // 
 // 
@@ -39,10 +36,7 @@ class Heap
 template<typename T>
 Heap<T>::Heap()
 {
-	// std::cout<<1.0/2.0<<"\n";
-	// dataVector.push_back(-1);
-	// std::cout<<"Check ceil in header: " <<ceil(1/2)-1<<"  "  <<ceil(5/2)-1<<"  "  <<ceil(7/2)-1<<"  "  <<ceil(13/2)-1<<"  "  <<"\n";
-	// std::cout<<"Check ceil in header: " <<ceil(0.5)-1<<"  "  <<ceil(2.5)-1<<"  "  <<ceil(3.5)-1<<"  "  <<ceil(6.5)-1<<"  "  <<"\n";
+
 }
 // 
 // 
@@ -58,27 +52,28 @@ void Heap<T>::add(T newValue)
 // 
 //********* Find Node To Add Add Item******************//
 template<typename T>
-Heap<T> Heap<T>::maxHeapSort()
+void Heap<T>::maxHeapSort()
 {
 	for (int parent = 0;  parent < dataVector.size();  parent++)
 	{
 		Heap<T>::fixNodeViolationMax(dataVector.size()-parent);
+		Heap<T>::print();
 		T temp                                   =   dataVector[0];
 		dataVector[0]                            =   dataVector[dataVector.size()-parent-1];
 		dataVector[dataVector.size()-parent-1]   =   temp;
 	}
-
 }
 // 
 // 
 // 
 //********* Find Node To Add Add Item******************//
 template<typename T>
-Heap<T> Heap<T>::minHeapSort()
+void Heap<T>::minHeapSort()
 {
 	for (int parent = 0;  parent < dataVector.size();  parent++)
 	{
 		Heap<T>::fixNodeViolationMin(dataVector.size()-parent);
+		Heap<T>::print();
 		T temp                                   =   dataVector[0];
 		dataVector[0]                            =   dataVector[dataVector.size()-parent-1];
 		dataVector[dataVector.size()-parent-1]   =   temp;
@@ -106,7 +101,7 @@ void Heap<T>::fixNodeViolationMax(int stopValue)
 		int child1   =  2*parent+1;
 		int child2   =  2*parent+2;
 
-		if (child1  < dataVector.size())
+		if (child1  < stopValue)
 		{
 			if (dataVector[parent] < dataVector[child1])
 			{
@@ -116,7 +111,7 @@ void Heap<T>::fixNodeViolationMax(int stopValue)
 			}
 		}
 
-		if (child2  < dataVector.size() )
+		if (child2  < stopValue )
 		{
 			if (dataVector[parent] < dataVector[child2])
 			{
@@ -126,20 +121,20 @@ void Heap<T>::fixNodeViolationMax(int stopValue)
 			}
 		}
 
-		Heap<T>::bubbleUpFixedNodeViolationMax(parent);
+		Heap<T>::bubbleUpFixedNodeViolationMax(parent, dataVector.size());
 	}
 }
 // 
 // 
 // 
 template<typename T>
-void Heap<T>::bubbleUpFixedNodeViolationMax(int child)
+void Heap<T>::bubbleUpFixedNodeViolationMax(int child, int stopValue)
 {
 	// // parent = n; children = 2n+1, 2n+2 OR 2n, 2n+1
 	// // child = N; parent = -1 + ceil(n/2)
 	int parent = ceil(0.5*child)-1;
 
-	if (parent  >= 0 and child < dataVector.size())
+	if (parent  >= 0 and child < stopValue)
 	{
 		if (dataVector[parent] < dataVector[child])
 		{
@@ -147,7 +142,7 @@ void Heap<T>::bubbleUpFixedNodeViolationMax(int child)
 			dataVector[child]    =   dataVector[parent];
 			dataVector[parent]   =   temp;
 		}
-		Heap<T>::bubbleUpFixedNodeViolationMax(parent);
+		Heap<T>::bubbleUpFixedNodeViolationMax(parent, stopValue);
 	}
 }
 // 
@@ -171,7 +166,7 @@ void Heap<T>::fixNodeViolationMin(int stopValue)
 		int child1   =  2*parent+1;
 		int child2   =  2*parent+2;
 
-		if (child1  < dataVector.size())
+		if (child1  < stopValue)
 		{
 			if (dataVector[parent] > dataVector[child1])
 			{
@@ -181,7 +176,7 @@ void Heap<T>::fixNodeViolationMin(int stopValue)
 			}
 		}
 
-		if (child2  < dataVector.size() )
+		if (child2  < stopValue )
 		{
 			if (dataVector[parent] > dataVector[child2])
 			{
@@ -191,20 +186,20 @@ void Heap<T>::fixNodeViolationMin(int stopValue)
 			}
 		}
 
-		Heap<T>::bubbleUpFixedNodeViolationMin(parent);
+		Heap<T>::bubbleUpFixedNodeViolationMin(parent, stopValue);
 	}
 }
 // 
 // 
 // 
 template<typename T>
-void Heap<T>::bubbleUpFixedNodeViolationMin(int child)
+void Heap<T>::bubbleUpFixedNodeViolationMin(int child, int stopValue)
 {
 	// // parent = n; children = 2n+1, 2n+2 OR 2n, 2n+1
 	// // child = N; parent = -1 + ceil(n/2)
 	int parent = ceil(0.5*child)-1;
 
-	if (parent  >= 0 and child < dataVector.size())
+	if (parent  >= 0 and child < stopValue)
 	{
 		if (dataVector[parent] > dataVector[child])
 		{
@@ -212,16 +207,8 @@ void Heap<T>::bubbleUpFixedNodeViolationMin(int child)
 			dataVector[child]    =   dataVector[parent];
 			dataVector[parent]   =   temp;
 		}
-		Heap<T>::bubbleUpFixedNodeViolationMin(parent);
+		Heap<T>::bubbleUpFixedNodeViolationMin(parent, stopValue);
 	}
-}
-// 
-// 
-// 
-template<typename T>
-T Heap<T>::popMin()
-{
-
 }
 // 
 // 
@@ -239,22 +226,18 @@ void Heap<T>::print()
 // 
 // 
 template<typename T>
-void Heap<T>::printMax()
+void Heap<T>::testMaxHeap()
 {
 	for (int parent = 0;  parent < dataVector.size();  parent++)
 	{
-		// std::cout<<dataVector[parent]<<"";
 		int child1   =  2*parent+1;
 		int child2   =  2*parent+2;
 
 		if (child1  < dataVector.size() and dataVector[parent] < dataVector[child1] )
 		{
-			// if (dataVector[parent] > dataVector[child1] or dataVector[parent] > dataVector[child2])
-			// {
 			std::cout<<dataVector[parent]<<"";
 			std::cout<<"<-maxv";
 			std::cout<<";   ";
-			// }
 		}
 		if (child2  < dataVector.size() and dataVector[parent] < dataVector[child2])
 		{
@@ -262,17 +245,6 @@ void Heap<T>::printMax()
 			std::cout<<"<-maxv";
 			std::cout<<";   ";
 		}
-
-		// if (child1  < dataVector.size() or child2  < dataVector.size() )
-		// {
-		// 	if (dataVector[parent] < dataVector[child1] or dataVector[parent] < dataVector[child2])
-		// 	{
-		// 		std::cout<<dataVector[parent]<<"";
-		// 		std::cout<<"<-maxv";
-		// 		std::cout<<";   ";
-		// 	}
-		// }
-		// std::cout<<";   ";
 	}
 	std::cout<<"  \n";
 }
@@ -280,22 +252,18 @@ void Heap<T>::printMax()
 // 
 // 
 template<typename T>
-void Heap<T>::printMin()
+void Heap<T>::testMinHeap()
 {
 	for (int parent = 0;  parent < dataVector.size();  parent++)
 	{
-		// std::cout<<dataVector[parent]<<"";
 		int child1   =  2*parent+1;
 		int child2   =  2*parent+2;
 
 		if (child1  < dataVector.size() and dataVector[parent] > dataVector[child1] )
 		{
-			// if (dataVector[parent] > dataVector[child1] or dataVector[parent] > dataVector[child2])
-			// {
 			std::cout<<dataVector[parent]<<"";
 			std::cout<<"<-minv";
 			std::cout<<";   ";
-			// }
 		}
 		if (child2  < dataVector.size() and dataVector[parent] > dataVector[child2])
 		{
@@ -303,16 +271,6 @@ void Heap<T>::printMin()
 			std::cout<<"<-minv";
 			std::cout<<";   ";
 		}
-		// if (child1  < dataVector.size() or child2  < dataVector.size() )
-		// {
-		// 	if (dataVector[parent] > dataVector[child1] or dataVector[parent] > dataVector[child2])
-		// 	{
-		// 		std::cout<<dataVector[parent]<<"";
-		// 		std::cout<<"<-minv";
-		// 		std::cout<<";   ";
-		// 	}
-		// }
-		// // std::cout<<";   ";
 	}
 	std::cout<<"  \n";
 }
@@ -320,173 +278,3 @@ void Heap<T>::printMin()
 // 
 // 
 #endif
-
-// // 
-// // 
-// // 
-// template<typename T>
-// void Heap<T>::maxViolation()
-// {
-// 	// // parent = n; children = 2n+1, 2n+2 OR 2n, 2n+1
-// 	// // child = N; parent = -1 + ceil(n/2)
-
-// 	for (int child = dataVector.size()-1;  ceil(0.5*child)-1 >= 0;  child--)
-// 	{
-// 		int parent = ceil(0.5*child)-1;
-
-// 		if (dataVector[parent] < dataVector[child])
-// 		{
-// 			T temp               =   dataVector[child];
-// 			dataVector[child]    =   dataVector[parent];
-// 			dataVector[parent]   =   temp;
-
-// 			std::cout<<"p: " <<parent <<"c: " <<child <<"\n";
-// 		}
-// 	}
-// }
-// // 
-// // 
-// // 
-// template<typename T>
-// void Heap<T>::minViolation()
-// {
-// 	// parent = n; children = 2n+1, 2n+2
-// 	// child = N; parent = -1 + ceil(n/2)
-// 	for (int child = dataVector.size()-1;  ceil(0.5*child)-1 >= 0;  child--)
-// 	{
-// 		int parent = ceil(0.5*child)-1;
-
-// 		if (dataVector[parent] > dataVector[child])
-// 		{
-// 			T temp               =   dataVector[child];
-// 			dataVector[child]    =   dataVector[parent];
-// 			dataVector[parent]   =   temp;
-
-// 			std::cout<<"p: " <<parent <<"c: " <<child <<"\n";
-// 		}
-// 	}
-// }
-// // 
-// // 
-// // 
-
-// 
-// 
-// 
-// template<typename T>
-// void Heap<T>::maxHeapify()
-// {
-// 	// parent = n; children = 2n+1, 2n+2
-// 	// child = N; parent = -1 + ceil(n/2)
-// 	for (int parent = 0;  2*parent+2 < dataVector.size();  parent++)
-// 	{
-// 		// int child = 2*parent+2;
-// 		// if (dataVector[parent] < dataVector[child])
-// 		// {
-// 		// 	Heap<T>::maxHeapify(parent);
-// 		// }
-
-// 		// int child1   =  2*parent+1;
-// 		// int child2   =  2*parent+2;
-
-// 		// if (child1  < dataVector.size() or child2  < dataVector.size() )
-// 		// {
-// 		// 	if (dataVector[parent] < dataVector[child1] or dataVector[parent] < dataVector[child2])
-// 		// 	{
-// 		// 		Heap<T>::bubbleUpFixedNodeViolationMax(parent);
-// 		// 	}
-// 		// }
-
-// 		Heap<T>::bubbleUpFixedNodeViolationMax(parent);
-// 	}
-// }
-// // 
-// // 
-// // 
-// template<typename T>
-
-// void Heap<T>::minHeapify()
-// {
-// 	// parent = n; children = 2n+1, 2n+2
-// 	// child = N; parent = -1 + ceil(n/2)
-// 	for (int parent = 0;  2*parent+2 < dataVector.size();  parent++)
-// 	{
-// 		// int child = 2*parent+2;
-// 		// if (dataVector[parent] < dataVector[child])
-// 		// {
-// 		// 	Heap<T>::maxHeapify(parent);
-// 		// }
-
-// 		int child1   =  2*parent+1;
-// 		int child2   =  2*parent+2;
-
-// 		if (child1  < dataVector.size() or child2  < dataVector.size() )
-// 		{
-// 			if (dataVector[parent] > dataVector[child1] or dataVector[parent] > dataVector[child2])
-// 			{
-// 				Heap<T>::bubbleUpFixedNodeViolationMin(parent);
-// 			}
-// 		}
-
-// 		// Heap<T>::bubbleUpFixedNodeViolationMin(parent);
-// 	}
-// }
-// // 
-// // 
-// // 
-// template<typename T>
-// void Heap<T>::bubbleUpFixedNodeViolationMax(int parent)
-// {
-// 	// // parent = n; children = 2n+1, 2n+2 OR 2n, 2n+1
-// 	// // child = N; parent = -1 + ceil(n/2)
-
-// 	int child1   =  2*parent+1;
-// 	int child2   =  2*parent+2;
-
-// 	if (child1  < dataVector.size())
-// 	{
-// 		if (dataVector[parent] < dataVector[child1])
-// 		{
-// 			T temp               =   dataVector[child1];
-// 			dataVector[child1]   =   dataVector[parent];
-// 			dataVector[parent]   =   temp;
-// 		}
-// 		Heap<T>::bubbleUpFixedNodeViolationMax(child1);
-// 	}
-
-// 	if (child2  < dataVector.size() )
-// 	{
-// 		if (dataVector[parent] < dataVector[child2])
-// 		{
-// 			T temp               =   dataVector[child2];
-// 			dataVector[child2]   =   dataVector[parent];
-// 			dataVector[parent]   =   temp;
-// 		}
-// 		Heap<T>::bubbleUpFixedNodeViolationMax(child2);
-// 	}
-// }
-// // 
-// // 
-// // 
-// template<typename T>
-// void Heap<T>::bubbleUpFixedNodeViolationMin(int child)
-// {
-// 	// parent = n; children = 2n+1, 2n+2
-// 	// child = N; parent = -1 + ceil(n/2)
-// 	for (int child = dataVector.size()-1;  ceil(0.5*child)-1 >= 0;  child--)
-// 	{
-// 		int parent = ceil(0.5*child)-1;
-
-// 		if (dataVector[parent] > dataVector[child])
-// 		{
-// 			T temp               =   dataVector[child];
-// 			dataVector[child]    =   dataVector[parent];
-// 			dataVector[parent]   =   temp;
-
-// 			// std::cout<<"p: " <<parent <<"c: " <<child <<"\n";
-// 		}
-// 	}
-// }
-// // 
-// // 
-// // 
