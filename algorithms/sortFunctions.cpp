@@ -14,47 +14,6 @@ using std::cout;
 using std::cin;
 
 
-vector <int> Heapify (vector <int> ThisArray)
-{
-	for (int it1 = ThisArray.size()-1;  it1 >= 0;  it1--)
-	{
-		if ( ThisArray[it1] <=  ThisArray[floor((it1-1)/2)])
-		{
-			continue;
-		}
-
-		else if (ThisArray[it1] >  ThisArray[floor((it1-1)/2)])
-		{
-			int temp1                    =  ThisArray[floor((it1-1)/2)];
-			ThisArray[floor((it1-1)/2)]  =  ThisArray[it1];
-			ThisArray[it1]               =  temp1;
-		}
-	}
-
-	return ThisArray;
-}
-// 
-// 
-// 
-vector <int> HeapSort (vector <int> ThisArray)
-{
-	vector <int> SortedVector = {};
-
-	while (!ThisArray.empty())
-	{
-		int temp1  =  ThisArray.back();
-		ThisArray.erase(--ThisArray.end());
-		ThisArray.insert(ThisArray.begin(), temp1);
-		ThisArray  =  Heapify (ThisArray);
-		SortedVector.insert(SortedVector.begin(), ThisArray.front());
-		ThisArray.erase(ThisArray.begin());
-	}
-
-	return SortedVector;
-}
-// 
-// 
-// 
 vector<int> BubbleSort (vector<int>ThisArray)
 {
 	for (int i = 0;  i < ThisArray.size();  i++)

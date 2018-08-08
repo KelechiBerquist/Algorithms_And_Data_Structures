@@ -17,7 +17,8 @@ class BST
 		void printPreOrderFunc(binNode<T> *oldPointer);
 		void printInOrderFunc(binNode<T> *oldPointer);
 		void printPostOrderFunc(binNode<T> *oldPointer);
-		bool searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue);
+		binNode<T> * searchHelpFunc(binNode<T> * thisNode, T searchValue);
+		// binNode<T> * searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue);
 		void printBFTFunc(DL_List <binNode<T> * > myQueue);
 
 
@@ -27,7 +28,7 @@ class BST
 	public:
 		BST();
 		void add(T newValue);
-		bool search(T searchValue);
+		T search(T searchValue);
 		void del(T value);
 		void print();
 		int height ();
@@ -122,33 +123,28 @@ void BST<T>::add(T newValue)
 // 
 //********* Print BST ******************//
 template<typename T>
-bool BST<T>::searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue)
+binNode<T> * BST<T>::searchHelpFunc (binNode<T> * thisNode, T searchValue)
 {
-	if (myQueue.size())
+	if (thisNode != NULL)	
 	{
-		binNode<T> * thisNode = myQueue.pop();
-
-		if (thisNode != NULL)	
+		std::cout<<thisNode->value <<"  ";
+		if (thisNode->value == searchValue)
 		{
-			std::cout<<thisNode->value <<"  ";
-			if (thisNode->value == searchValue)
-			{
-				return true;
-			}
-			else if (searchValue < thisNode->value)
-			{
-				myQueue.push(thisNode->child_left);
-			}
-			else
-			{
-				myQueue.push(thisNode->child_right);
-			}
-			BST<T>::searchHelpFunc(myQueue, searchValue);	
+			return thisNode;
+		}
+		else if (searchValue < thisNode->value)
+		{
+			BST<T>::searchHelpFunc(thisNode->child_left, searchValue);
+		}
+		else
+		{
+			BST<T>::searchHelpFunc(thisNode->child_right, searchValue);
 		}
 	}
+	
 	else
 	{
-		return false;
+		return NULL;
 	}
 }
 // 
@@ -156,16 +152,72 @@ bool BST<T>::searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue)
 // 
 //********* Print BST ******************//
 template<typename T>
-bool BST<T>::search(T searchValue)
+T BST<T>::search(T searchValue)
 {
-	myQueue.push(BST<T>::rootNode);
-	bool truthValue = BST<T>::searchHelpFunc(myQueue, searchValue);
+	binNode<T> * thisNode = BST<T>::searchHelpFunc(BST<T>::rootNode, searchValue);
 
-	return truthValue;
+	if (thisNode == NULL)
+	{
+		return -1;
+	}
+	return thisNode->value;
 }
 // 
 // 
 // 
+// // 
+// // 
+// // 
+// //********* Print BST ******************//
+// template<typename T>
+// binNode<T> * BST<T>::searchHelpFunc(DL_List <binNode<T> * > myQueue, T searchValue)
+// {
+// 	if (myQueue.size())
+// 	{
+// 		binNode<T> * thisNode = myQueue.pop();
+
+// 		if (thisNode != NULL)	
+// 		{
+// 			std::cout<<thisNode->value <<"  ";
+// 			if (thisNode->value == searchValue)
+// 			{
+// 				return thisNode;
+// 			}
+// 			else if (searchValue < thisNode->value)
+// 			{
+// 				myQueue.push(thisNode->child_left);
+// 			}
+// 			else
+// 			{
+// 				myQueue.push(thisNode->child_right);
+// 			}
+// 			BST<T>::searchHelpFunc(myQueue, searchValue);	
+// 		}
+// 	}
+// 	else
+// 	{
+// 		return NULL;
+// 	}
+// }
+// // 
+// // 
+// // 
+// //********* Print BST ******************//
+// template<typename T>
+// bool BST<T>::search(T searchValue)
+// {
+// 	myQueue.push(BST<T>::rootNode);
+// 	binNode<T> * thisNode = BST<T>::searchHelpFunc(myQueue, searchValue);
+
+// 	if (thisNode == NULL)
+// 	{
+// 		return -1;
+// 	}
+// 	return thisNode->value;
+// }
+// // 
+// // 
+// // 
 // **************************************************//
 // **************************************************//
 // The methods for doing depth-first search are:

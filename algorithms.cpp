@@ -26,6 +26,7 @@
 #include "dataStructures/singly_linked_list.h"
 #include "dataStructures/diffNode.h"
 #include "dataStructures/heap.h"
+#include "dataStructures/hash_Table.h"
 
 
 using std::vector;
@@ -51,8 +52,10 @@ int main()
 	std::uniform_int_distribution<int> di(low_bound,up_bound);//distribution
 
 	std::vector <int> ArrayToSort(m);
+	std::vector <int> ArrayToSort2(m);
 
 	std::generate(ArrayToSort.begin(), ArrayToSort.end(), [&]{ return di(dre);});
+	std::generate(ArrayToSort2.begin(), ArrayToSort2.end(), [&]{ return di(dre);});
 
 	for (auto i: ArrayToSort)
 	{
@@ -60,58 +63,96 @@ int main()
 	}
 	cout<<"\n";
 	cout<<"\n";
+	
+	for (auto i: ArrayToSort2)
+	{
+		cout<<i<<"  ";
+	}
+	cout<<"\n";
+	cout<<"\n";
 
-	// vector<int>Heapified = Heapify (ArrayToSort);
-	// for (auto i: Heapified)
-	// {
-	// 	cout<<i<<"  ";
-	// }
-	// cout<<"\n";
-	// cout<<"\n";
+	
+	// // ******************************************************************************************************//
+	// // **************** Begin For Implementing Hash Table *************************//
+	// // ******************************************************************************************************//
+	HashTable <int, int> myHashTable;
+
+	for (int i = 0;  i < m;  i++)
+	{
+		myHashTable.add(ArrayToSort[i], ArrayToSort2[i]);
+	}
+
+	myHashTable.print();
+	cout<<"\n";
+	cout<<"\n";
+	cout<<-77 <<":"<<-1 <<" =   ";
+	cout<<myHashTable.search(-77) <<"  " ;
+	cout<<"\n";
+	cout<<"\n";
+	cout<< ArrayToSort[3] <<":" << ArrayToSort2[3] <<"  =   " ;
+	cout<<myHashTable.search(ArrayToSort[3]) <<"  " ;
+	cout<<"\n";
+	cout<<"\n";
+	cout<< ArrayToSort[3]-704 <<":" << -1 <<"  =   " ;
+	cout<<myHashTable.search(ArrayToSort[3]-704) <<"  " ;
+	cout<<"\n";
+	cout<<"\n";
+	cout<< ArrayToSort[m-1]+99 <<":" << -1 <<"  =   " ;
+	cout<<myHashTable.search(ArrayToSort[m-1]+99) <<"  " ;
+	cout<<"\n";
+	cout<<"\n";
+	cout<< ArrayToSort[m-1] <<":" << ArrayToSort2[m-1] <<"  =   " ;
+	cout<<myHashTable.search(ArrayToSort[m-1]) <<"  " ;
+	cout<<"\n";
+	cout<<"\n";
+	
+	
+	// // ******************************************************************************************************//
+	// // **************** End For Implementing Hash Table *************************//
+	// // ******************************************************************************************************//
 
 
-	// cout<<"Check ceil: " <<ceil(1/2)-1<<"  "  <<ceil(5/2)-1<<"  "  <<ceil(7/2)-1<<"  "  <<ceil(13/2)-1<<"  "  <<"\n";
-	// cout<<"Check ceil: " <<ceil(0.5)-1<<"  "  <<ceil(2.5)-1<<"  "  <<ceil(3.5)-1<<"  "  <<ceil(6.5)-1<<"  "  <<"\n";
+
 
 
 	// // ******************************************************************************************************//
 	// // **************** Begin For Implementing MyHeap *************************//
 	// // ******************************************************************************************************//
-	Heap <int> myHeap1;
-	Heap <int> myHeap2;
+	// Heap <int> myHeap1;
+	// Heap <int> myHeap2;
 
-	for (int i : ArrayToSort)
-	{
-		myHeap1.add(i);
-		myHeap2.add(i);
-	}
+	// for (int i : ArrayToSort)
+	// {
+	// 	myHeap1.add(i);
+	// 	myHeap2.add(i);
+	// }
 
+	// // myHeap1.print();
+	// // myHeap2.print();
+	// cout<<"\n";
+	// cout<<"\n";
+	// myHeap1.maxHeapify();
+	// myHeap2.minHeapify();
+
+	// // cout<<"\n";
+	// // cout<<"\n";
+	// // myHeap1.testMaxHeap();
+	// // cout<<"\n";
+	// // cout<<"\n";
+	// // myHeap2.testMinHeap();
+	// // cout<<"\n";
+	// // cout<<"\n";
+
+	// myHeap1.maxHeapSort();
+	// cout<<"\n";
+	// cout<<"\n";
+	// myHeap2.minHeapSort();
+	// cout<<"\n";
+	// cout<<"\n";
 	// myHeap1.print();
+	// cout<<"\n";
+	// cout<<"\n";
 	// myHeap2.print();
-	cout<<"\n";
-	cout<<"\n";
-	myHeap1.maxHeapify();
-	myHeap2.minHeapify();
-
-	// cout<<"\n";
-	// cout<<"\n";
-	// myHeap1.testMaxHeap();
-	// cout<<"\n";
-	// cout<<"\n";
-	// myHeap2.testMinHeap();
-	// cout<<"\n";
-	// cout<<"\n";
-
-	myHeap1.maxHeapSort();
-	cout<<"\n";
-	cout<<"\n";
-	myHeap2.minHeapSort();
-	cout<<"\n";
-	cout<<"\n";
-	myHeap1.print();
-	cout<<"\n";
-	cout<<"\n";
-	myHeap2.print();
 	
 	// // ******************************************************************************************************//
 	// // **************** End For Implementing MyHeap *************************//
@@ -190,6 +231,10 @@ int main()
 	// cout<<myTree.search(-77) <<"  " ;
 	// cout<<"\n";
 	// cout<<"\n";
+	// cout<< ArrayToSort[3] <<":   " ;
+	// cout<<myTree.search(ArrayToSort[3]) <<"  " ;
+	// cout<<"\n";
+	// cout<<"\n";
 	// cout<< ArrayToSort[3]-704 <<":   " ;
 	// cout<<myTree.search(ArrayToSort[3]-704) <<"  " ;
 	// cout<<"\n";
@@ -198,8 +243,8 @@ int main()
 	// cout<<myTree.search(ArrayToSort[m-1]+99) <<"  " ;
 	// cout<<"\n";
 	// cout<<"\n";
-	// cout<< ArrayToSort[m-17]*10 <<":   " ;
-	// cout<<myTree.search(ArrayToSort[m-17]*10) <<"  " ;
+	// cout<< ArrayToSort[m-1] <<":   " ;
+	// cout<<myTree.search(ArrayToSort[m-1]) <<"  " ;
 	// cout<<"\n";
 	// cout<<"\n";
 	// // ******************************************************************************************************//

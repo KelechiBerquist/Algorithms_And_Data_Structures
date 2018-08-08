@@ -1,7 +1,6 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-// #include <math.h>   
 #include <cmath>   
 #include "diffNode.h"
 #include "doubly_linked_list.h"
